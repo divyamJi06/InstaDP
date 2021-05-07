@@ -6,7 +6,7 @@ from PIL import Image
 
 test = instaloader.Instaloader()
 API_KEY = api.apireturn()
-bot = telebot.TeleBot("1797049159:AAEqWGHLn6qE8oRW_kQaSSxHhWXJkag4PgQ", parse_mode=None)
+bot = telebot.TeleBot(API_KEY, parse_mode=None)
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
