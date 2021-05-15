@@ -2,7 +2,7 @@ import telebot
 # import api
 import os
 import instaloader
-# from PIL import Image
+from PIL import Image
 
 test = instaloader.Instaloader()
 API_KEY = "1797049159:AAEqWGHLn6qE8oRW_kQaSSxHhWXJkag4PgQ"
