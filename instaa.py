@@ -1,12 +1,15 @@
+from instaloader.exceptions import ProfileNotExistsException
 import telebot
-import api
+# import api
 import os
+from os import environ
 import instaloader
 from PIL import Image
 
 test = instaloader.Instaloader()
-API_KEY = api.apireturn()
-bot = telebot.TeleBot("1797049159:AAEqWGHLn6qE8oRW_kQaSSxHhWXJkag4PgQ", parse_mode=None)
+API_KEY = environ["API"]
+bot = telebot.TeleBot(API_KEY)
+
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
@@ -15,8 +18,10 @@ def send_welcome(message):
 
 @bot.message_handler(func=lambda message: True)
 def echo_all(message):
-    
-        acc = message.text
+
+    acc = message.text
+    try:
+        # print(0)
         test.download_profile(acc, profile_pic_only=True)
         path = (os.path.join(os.getcwd(), acc))
         for i in os.listdir(path):
@@ -24,6 +29,11 @@ def echo_all(message):
                 path = os.path.join(path, i)
                 break
         im = Image.open(path)
+        # print(type(p))
         bot.send_photo(message.chat.id, im, "Profile picture")
+    except ProfileNotExistsException:
+        print("not found")
+        bot.reply_to(message, "{} not found".format(acc))
+
 
 bot.polling()
