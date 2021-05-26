@@ -7,7 +7,7 @@ import instaloader
 from PIL import Image
 
 test = instaloader.Instaloader()
-API_KEY = environ["API"]
+API_KEY = environ['API']
 bot = telebot.TeleBot(API_KEY)
 
 
@@ -19,9 +19,9 @@ def send_welcome(message):
 @bot.message_handler(func=lambda message: True)
 def echo_all(message):
 
-    acc = message.text
+    acc = message.text.lower()
+    print(acc)
     try:
-        # print(0)
         test.download_profile(acc, profile_pic_only=True)
         path = (os.path.join(os.getcwd(), acc))
         for i in os.listdir(path):
@@ -33,6 +33,9 @@ def echo_all(message):
         bot.send_photo(message.chat.id, im, "Profile picture")
     except ProfileNotExistsException:
         print("not found")
+    except:
+        print("not found")
+        
         bot.reply_to(message, "{} not found".format(acc))
 
 
